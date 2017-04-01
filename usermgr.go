@@ -16,14 +16,14 @@ type UserMgr struct {
 	userMap map[string]User
 }
 
-func NewUserMgr() UserMgr {
+func NewUserMgr() *UserMgr {
 	um := UserMgr{
 		userMap: make(map[string]User),
 	}
-	return um
+	return &um
 }
 
-func (um UserMgr) GetUser(un string) (User, bool) {
+func (um *UserMgr) GetUser(un string) (User, bool) {
 	user, found := um.userMap[un]
 	if found {
 		return user, found
@@ -32,16 +32,16 @@ func (um UserMgr) GetUser(un string) (User, bool) {
 	}
 }
 
-func (um UserMgr) UserNameIsTaken(un string) bool {
+func (um *UserMgr) UserNameIsTaken(un string) bool {
 	_, ok := um.userMap[un]
 	return ok
 }
 
-func (um UserMgr) RemoveUser(userName string) {
+func (um *UserMgr) RemoveUser(userName string) {
 	delete(um.userMap, userName)
 }
 
-func (um UserMgr) CreateUser(pw []byte, un, fn, ln string) (User, error) {
+func (um *UserMgr) CreateUser(pw []byte, un, fn, ln string) (User, error) {
 	if _, ok := um.userMap[un]; ok {
 		errMsg := fmt.Sprintf("Username '%s' already taken", un)
 		return User{}, errors.New(errMsg)
